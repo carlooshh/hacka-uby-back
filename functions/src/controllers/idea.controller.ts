@@ -15,13 +15,14 @@ class IdeaController {
    * @returns {object} - object representing response message
    */
   static async createIdea(req: any, res: any, next: any) {
-    const { challenge, solution, gain, userName, userEmail } = req.body;
+    const { challenge, solution, gain, userName, userEmail, problem } =
+      req.body;
 
     dbConnection.connect();
 
     dbConnection.query(
-      "insert into util.idea ( challenge, solution, gain, user_name, user_email ) values (?,?,?,?,?);",
-      [challenge, solution, gain, userName, userEmail],
+      "insert into util.idea ( challenge, solution, gain, user_name, user_email, problem ) values (?,?,?,?,?, ?);",
+      [challenge, solution, gain, userName, userEmail, problem],
       function (error: any, results: any, fields: any) {
         if (error) throw error;
         console.log("The solution is: ", results);
