@@ -50,6 +50,8 @@ class IdeaController {
   static async getIdeas(req: any, res: any, next: any) {
     const { challenge, status } = req.query;
 
+    console.log(challenge);
+
     const snapshot = await db.collection("idea").get();
     const result: any = [];
 
