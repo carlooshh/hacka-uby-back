@@ -54,8 +54,7 @@ class IdeaController {
     const result: any = [];
 
     for (const doc of snapshot.docs) {
-      if (doc.data().challenge == challenge && doc.data().status == status)
-        result.push(doc.data());
+      if (doc.data().status == status) result.push(doc.data());
     }
 
     return res.status(200).send(result);
