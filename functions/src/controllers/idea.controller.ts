@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
-import dbConnection from "../db/db";
+import db from "../config/firestore";
+import { v4 as uuidv4 } from "uuid";
+
 dotenv.config();
 
 /**
@@ -18,31 +20,44 @@ class IdeaController {
     const { challenge, solution, gain, userName, userEmail, problem } =
       req.body;
 
-    dbConnection.query(
-      "insert into util.idea ( challenge, solution, gain, user_name, user_email, problem ) values (?,?,?,?,?, ?);",
-      [challenge, solution, gain, userName, userEmail, problem],
-      function (error: any, results: any, fields: any) {
-        if (error) throw error;
-        console.log("The solution is: ", results);
-        res.status(200).send({
-          message:
-            "Ideia criada com sucesso! Obrigado por fazer parte da evolução da Uby",
-        });
-      }
-    );
+    console.log(db);
+
+    try {
+      const collection = db.collection("idea");
+      const result = await collection.add({
+        id: uuidv4(),
+        challenge,
+        solution,
+        gain,
+        userName,
+        userEmail,
+        problem,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      console.log(result);
+      return res.status(200).send({
+        message:
+          "Ideia criada com sucesso! Obrigado por fazer parte da evolução da Uby",
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   static async getIdeas(req: any, res: any, next: any) {
     const { challenge, status } = req.query;
 
-    dbConnection.query(
-      `select * from util.idea where challenge = "${challenge}" and status = "${status}";`,
-      function (error: any, results: any, fields: any) {
-        if (error) throw error;
-        console.log("The solution is: ", results);
-        res.status(200).send(results);
-      }
-    );
+    const snapshot = await db.collection("idea").get();
+    const result: any = [];
+
+    for (const doc of snapshot.docs) {
+      if (doc.data().challenge == challenge && doc.data().status == status)
+        result.push(doc.data());
+    }
+
+    return res.status(200).send(result);
   }
 
   static async updateIdea(req: any, res: any, next: any) {}
