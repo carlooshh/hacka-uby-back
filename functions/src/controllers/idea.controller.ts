@@ -46,6 +46,10 @@ class IdeaController {
   }
 
   static async updateIdea(req: any, res: any, next: any) {}
+
+  static async test(req: any, res: any, next: any) {
+    res.send("Hello World!");
+  }
 }
 
 export default IdeaController;

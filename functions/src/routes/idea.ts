@@ -5,6 +5,7 @@ const ideaRouter = express.Router();
 
 ideaRouter.post("", IdeaController.createIdea);
 ideaRouter.get("", IdeaController.getIdeas);
+ideaRouter.get("/test", IdeaController.test);
 ideaRouter.patch("", IdeaController.getIdeas);
 
 export default ideaRouter;
