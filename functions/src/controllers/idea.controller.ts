@@ -59,6 +59,8 @@ class IdeaController {
       if (doc.data().status == status)
         result.push({
           ...doc.data(),
+          user_name: doc.data().userName,
+          user_email: doc.data().userEmail,
           created_at: new Date(),
           updated_at: new Date(),
         });
