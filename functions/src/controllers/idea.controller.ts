@@ -32,6 +32,7 @@ class IdeaController {
         userName,
         userEmail,
         problem,
+        status: "PENDING",
         createdAt: new Date(),
         updatedAt: new Date(),
       });
