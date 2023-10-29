@@ -37,13 +37,13 @@ class IdeaController {
   }
 
   static async getIdeas(req: any, res: any, next: any) {
-    const { challenge } = req.query;
+    const { challenge, status } = req.query;
 
     dbConnection.connect();
 
     dbConnection.query(
-      "select * from util.idea where challenge = ? ;",
-      [`"${challenge}"`],
+      "select * from util.idea where challenge = ? and status = ?;",
+      [`"${challenge}"`, `"${status}"`],
       function (error: any, results: any, fields: any) {
         if (error) throw error;
         console.log("The solution is: ", results);
