@@ -42,15 +42,12 @@ class IdeaController {
     dbConnection.connect();
 
     dbConnection.query(
-      "select * from util.idea where challenge = ? and status = ?;",
+      "select * from util.idea",
       [`"${challenge}"`, `"${status}"`],
       function (error: any, results: any, fields: any) {
         if (error) throw error;
         console.log("The solution is: ", results);
-        res.status(200).send({
-          message:
-            "Ideia criada com sucesso! Obrigado por fazer parte da evolução da Uby",
-        });
+        res.status(200).send(results);
       }
     );
 
