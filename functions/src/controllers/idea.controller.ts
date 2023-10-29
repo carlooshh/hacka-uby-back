@@ -59,8 +59,8 @@ class IdeaController {
       if (doc.data().status == status)
         result.push({
           ...doc.data(),
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
         });
     }
 
