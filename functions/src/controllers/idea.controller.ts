@@ -18,8 +18,6 @@ class IdeaController {
     const { challenge, solution, gain, userName, userEmail, problem } =
       req.body;
 
-    dbConnection.connect();
-
     dbConnection.query(
       "insert into util.idea ( challenge, solution, gain, user_name, user_email, problem ) values (?,?,?,?,?, ?);",
       [challenge, solution, gain, userName, userEmail, problem],
@@ -30,8 +28,6 @@ class IdeaController {
           message:
             "Ideia criada com sucesso! Obrigado por fazer parte da evolução da Uby",
         });
-        dbConnection.end();
-        dbConnection.destroy();
       }
     );
   }
@@ -39,17 +35,12 @@ class IdeaController {
   static async getIdeas(req: any, res: any, next: any) {
     const { challenge, status } = req.query;
 
-    dbConnection.connect();
-
     dbConnection.query(
       `select * from util.idea where challenge = "${challenge}" and status = "${status}";`,
       function (error: any, results: any, fields: any) {
         if (error) throw error;
         console.log("The solution is: ", results);
         res.status(200).send(results);
-
-        dbConnection.end();
-        dbConnection.destroy();
       }
     );
   }
