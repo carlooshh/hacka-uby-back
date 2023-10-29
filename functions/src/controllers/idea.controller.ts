@@ -30,15 +30,14 @@ class IdeaController {
           message:
             "Ideia criada com sucesso! Obrigado por fazer parte da evolução da Uby",
         });
+        dbConnection.end();
+        dbConnection.destroy();
       }
     );
-
-    dbConnection.end();
   }
 
   static async getIdeas(req: any, res: any, next: any) {
     const { challenge, status } = req.query;
-    console.log(``);
 
     dbConnection.connect();
 
@@ -48,10 +47,11 @@ class IdeaController {
         if (error) throw error;
         console.log("The solution is: ", results);
         res.status(200).send(results);
+
+        dbConnection.end();
+        dbConnection.destroy();
       }
     );
-
-    dbConnection.end();
   }
 
   static async updateIdea(req: any, res: any, next: any) {}
